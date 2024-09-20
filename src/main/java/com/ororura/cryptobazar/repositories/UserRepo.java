@@ -1,6 +1,6 @@
 package com.ororura.cryptobazar.repositories;
 
-import com.ororura.cryptobazar.entities.UserEntity;
+import com.ororura.cryptobazar.entities.user.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

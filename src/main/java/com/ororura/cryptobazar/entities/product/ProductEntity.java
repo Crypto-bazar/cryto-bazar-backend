@@ -28,6 +28,6 @@ public class ProductEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", columnDefinition = "product_status")
-    @ColumnDefault("'available'")
+    @ColumnDefault("'AVAILABLE'")
     private ProductStatus status = ProductStatus.AVAILABLE;
 }

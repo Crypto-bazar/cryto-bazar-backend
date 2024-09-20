@@ -3,7 +3,7 @@ package com.ororura.cryptobazar.services.userservice;
 import com.ororura.cryptobazar.dtos.JWTResponse;
 import com.ororura.cryptobazar.dtos.SignInDTO;
 import com.ororura.cryptobazar.dtos.SignUpDTO;
-import com.ororura.cryptobazar.entities.UserEntity;
+import com.ororura.cryptobazar.entities.user.UserEntity;
 import com.ororura.cryptobazar.repositories.UserRepo;
 import com.ororura.cryptobazar.utils.JwtUtils;
 import org.springframework.security.core.userdetails.User;
@@ -43,7 +43,7 @@ public class UserService implements UserDetailsService {
 
         UserEntity user = userEntity.get();
 
-        if(!passwordEncoder.matches(signInDTO.getPassword(), user.getPassword())) {
+        if (!passwordEncoder.matches(signInDTO.getPassword(), user.getPassword())) {
             response.setToken(INVALID_PASSWORD);
             return response;
         }
@@ -83,12 +83,13 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Optional<UserEntity> user = userRepo.findByEmail(email);
+        Optional<UserEntity> optionalUserEntity = userRepo.findByEmail(email);
+        UserEntity userEntity = optionalUserEntity.orElseThrow(() -> new UsernameNotFoundException(email));
 
-        if (user.isEmpty()) {
-            throw new UsernameNotFoundException(email);
-        }
-
-        return user.get();
+        return User.builder()
+                .username(userEntity.getEmail())
+                .password(userEntity.getPassword())
+                .roles(userEntity.getRole().toString())
+                .build();
     }
 }

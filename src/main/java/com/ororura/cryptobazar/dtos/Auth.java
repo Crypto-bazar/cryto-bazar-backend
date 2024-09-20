@@ -5,8 +5,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class SignUpDTO extends Auth {
-    private String firstName;
-    private String lastName;
+public abstract class Auth {
+       private String email = "";
+       private String password = "";
 
 }

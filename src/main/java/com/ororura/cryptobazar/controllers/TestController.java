@@ -1,8 +1,7 @@
 package com.ororura.cryptobazar.controllers;
 
-import com.ororura.cryptobazar.entities.UserEntity;
+import com.ororura.cryptobazar.entities.user.UserEntity;
 import com.ororura.cryptobazar.services.userservice.UserService;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,7 +14,6 @@ public class TestController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('user')")
     public UserEntity getUserByFirstName(@RequestParam String firstName) {
         return this.userService.getUserByFirstName(firstName);
     }
