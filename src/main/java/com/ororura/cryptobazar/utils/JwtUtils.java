@@ -1,5 +1,6 @@
 package com.ororura.cryptobazar.utils;
 
+import com.ororura.cryptobazar.entities.UserEntity;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
@@ -10,7 +11,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -35,8 +35,9 @@ public class JwtUtils {
         return null;
     }
 
-    public String generateTokenFromUsername(UserDetails userDetails) {
-        String username = userDetails.getUsername();
+    public String generateTokenFromUsername(UserEntity userEntity) {
+        String username = userEntity.getEmail();
+        System.out.println(username);
         return Jwts.builder()
                 .subject(username)
                 .issuedAt(new Date())

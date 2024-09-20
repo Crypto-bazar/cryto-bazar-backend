@@ -1,6 +1,6 @@
 package com.ororura.cryptobazar.config;
 
-import com.ororura.cryptobazar.services.UserService;
+import com.ororura.cryptobazar.services.userservice.UserService;
 import com.ororura.cryptobazar.utils.JwtUtils;
 import jakarta.annotation.Nonnull;
 import jakarta.servlet.FilterChain;
@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,11 +23,15 @@ import java.io.IOException;
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    @Autowired
-    private JwtUtils jwtUtils;
-    @Autowired
-    private UserService userService;
+    private final JwtUtils jwtUtils;
+    private final UserService userService;
     private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
+
+    @Autowired
+    public JwtAuthenticationFilter(JwtUtils jwtUtils, @Lazy UserService userService) {
+        this.jwtUtils = jwtUtils;
+        this.userService = userService;
+    }
 
     @Override
     protected void doFilterInternal(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull FilterChain filterChain) {

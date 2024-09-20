@@ -1,7 +1,10 @@
 package com.ororura.cryptobazar.config;
 
+import com.ororura.cryptobazar.services.userservice.UserService;
+import com.ororura.cryptobazar.utils.JwtUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,24 +26,25 @@ import javax.sql.DataSource;
 public class SecurityConfig {
 
     private final AuthEntryPointJwt unauthorizedHandler;
+    private final JwtUtils jwtUtils;
+    private final UserService userService;
 
-    public SecurityConfig(AuthEntryPointJwt unauthorizedHandler) {
+    public SecurityConfig(AuthEntryPointJwt unauthorizedHandler, JwtUtils jwtUtils, @Lazy UserService userService) {
         this.unauthorizedHandler = unauthorizedHandler;
+        this.jwtUtils = jwtUtils;
+        this.userService = userService;
     }
 
     @Bean
     public JwtAuthenticationFilter authenticationJwtTokenFilter() {
-        return new JwtAuthenticationFilter();
+        return new JwtAuthenticationFilter(jwtUtils, userService);
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(authorizeRequests ->
                 authorizeRequests
-                        .requestMatchers("/registration").permitAll()
-                        .requestMatchers("/sign-in").permitAll()
-                        .requestMatchers("/ws/**").permitAll()
-                        .requestMatchers("/images/**").permitAll()
+                        .requestMatchers("/auth/**").permitAll()
                         .anyRequest()
                         .authenticated());
 
