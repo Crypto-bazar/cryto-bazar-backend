@@ -1,7 +1,8 @@
 package com.ororura.cryptobazar.controllers;
 
-import com.ororura.cryptobazar.entities.user.UserEntity;
 import com.ororura.cryptobazar.services.userservice.UserService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,7 +15,11 @@ public class TestController {
     }
 
     @GetMapping
-    public UserEntity getUserByFirstName(@RequestParam String firstName) {
-        return this.userService.getUserByFirstName(firstName);
+    public ResponseEntity<?> getUserByFirstName(@RequestParam(required = false) String firstName) {
+        if (firstName == null || firstName.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(this.userService.getUserByFirstName(firstName));
     }
 }
