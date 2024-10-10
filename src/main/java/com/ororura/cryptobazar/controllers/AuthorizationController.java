@@ -7,7 +7,6 @@ import com.ororura.cryptobazar.services.userservice.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,12 +23,12 @@ public class AuthorizationController {
     }
 
     @PostMapping("/sign-up")
-    public JWTResponse signUp(@RequestBody SignUpDTO signUpDTO) {
+    public JWTResponse signUp(SignUpDTO signUpDTO) {
         return this.userService.signUp(signUpDTO);
     }
 
     @PostMapping("/sign-in")
-    public ResponseEntity<JWTResponse> signIn(@RequestBody SignInDTO signInDTO) {
+    public ResponseEntity<JWTResponse> signIn(SignInDTO signInDTO) {
         JWTResponse jwtResponse = this.userService.signIn(signInDTO);
 
         if (USER_NOT_FOUND.equals(jwtResponse.getToken())) {

@@ -1,11 +1,10 @@
 package com.ororura.cryptobazar.entities.user;
 
-import com.ororura.cryptobazar.entities.product.ProductEntity;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -14,6 +13,8 @@ import java.util.List;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "user_entity")
 public class UserEntity implements UserDetails {
@@ -38,11 +39,6 @@ public class UserEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private Role role = Role.USER;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @OnDelete(action = OnDeleteAction.SET_NULL)
-    @JoinColumn(name = "id_product")
-    private ProductEntity idProduct;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

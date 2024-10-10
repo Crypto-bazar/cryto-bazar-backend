@@ -63,13 +63,13 @@ public class UserService implements UserDetailsService {
         return generateToken(userEntity);
     }
 
-    public JWTResponse generateToken(UserEntity u) {
+    private JWTResponse generateToken(UserEntity u) {
         JWTResponse jwtResponse = new JWTResponse();
         jwtResponse.setToken(jwtUtils.generateTokenFromUsername(u));
         return jwtResponse;
     }
 
-    public void buildUser(SignUpDTO r) {
+    private void buildUser(SignUpDTO r) {
         User.builder()
                 .username(r.getEmail())
                 .roles("user")

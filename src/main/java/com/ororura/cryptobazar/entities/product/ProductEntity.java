@@ -11,8 +11,7 @@ import org.hibernate.annotations.ColumnDefault;
 @Table(name = "product_entity")
 public class ProductEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_entity_id_gen")
-    @SequenceGenerator(name = "product_entity_id_gen", sequenceName = "product_entity_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private Integer id;
 
@@ -26,8 +25,4 @@ public class ProductEntity {
     @Column(name = "amount")
     private Integer amount;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status", columnDefinition = "product_status")
-    @ColumnDefault("'AVAILABLE'")
-    private ProductStatus status = ProductStatus.AVAILABLE;
 }
