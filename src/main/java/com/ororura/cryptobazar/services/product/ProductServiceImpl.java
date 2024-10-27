@@ -33,4 +33,9 @@ public class ProductServiceImpl implements ProductService {
     public ProductEntity getProductById(Integer id) {
         return productRepo.findFirstById(id).orElseThrow(() -> new RuntimeException("Product not found"));
     }
+
+    @Override
+    public void deleteProductById(Integer id) {
+        this.productRepo.deleteById(id);
+    }
 }

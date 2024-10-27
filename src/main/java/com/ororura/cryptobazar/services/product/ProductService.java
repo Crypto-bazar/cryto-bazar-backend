@@ -10,4 +10,7 @@ public interface ProductService {
 
     @Transactional
     ProductEntity getProductById(Integer id);
+
+    @Transactional
+    void deleteProductById(Integer id);
 }
