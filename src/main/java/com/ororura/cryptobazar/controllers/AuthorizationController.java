@@ -3,7 +3,7 @@ package com.ororura.cryptobazar.controllers;
 import com.ororura.cryptobazar.dtos.JWTResponse;
 import com.ororura.cryptobazar.dtos.SignInDTO;
 import com.ororura.cryptobazar.dtos.SignUpDTO;
-import com.ororura.cryptobazar.services.user.UserService;
+import com.ororura.cryptobazar.services.user.UserServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,20 +16,20 @@ import static com.ororura.cryptobazar.services.user.ResponseStatus.USER_NOT_FOUN
 @RestController
 @RequestMapping("auth")
 public class AuthorizationController {
-    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
 
-    public AuthorizationController(UserService userService) {
-        this.userService = userService;
+    public AuthorizationController(UserServiceImpl userServiceImpl) {
+        this.userServiceImpl = userServiceImpl;
     }
 
     @PostMapping("/sign-up")
     public JWTResponse signUp(SignUpDTO signUpDTO) {
-        return this.userService.signUp(signUpDTO);
+        return this.userServiceImpl.signUp(signUpDTO);
     }
 
     @PostMapping("/sign-in")
     public ResponseEntity<JWTResponse> signIn(SignInDTO signInDTO) {
-        JWTResponse jwtResponse = this.userService.signIn(signInDTO);
+        JWTResponse jwtResponse = this.userServiceImpl.signIn(signInDTO);
 
         if (USER_NOT_FOUND.equals(jwtResponse.getToken())) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(jwtResponse);

@@ -3,7 +3,7 @@ package com.ororura.cryptobazar;
 import com.ororura.cryptobazar.controllers.TestController;
 import com.ororura.cryptobazar.entities.user.Role;
 import com.ororura.cryptobazar.entities.user.UserEntity;
-import com.ororura.cryptobazar.services.user.UserService;
+import com.ororura.cryptobazar.services.user.UserServiceImpl;
 import com.ororura.cryptobazar.utils.JwtUtils;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -27,7 +27,7 @@ class TestControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private UserService userService;
+    private UserServiceImpl userServiceImpl;
 
     @MockBean
     private JwtUtils jwtUtils;
@@ -44,7 +44,7 @@ class TestControllerTest {
                 Role.USER
         );
 
-        Mockito.when(userService.getUserByFirstName(anyString())).thenReturn(mockUser);
+        Mockito.when(userServiceImpl.getUserByFirstName(anyString())).thenReturn(mockUser);
 
         mockMvc.perform(get("/test")
                         .param("firstName", "Vasya")

@@ -1,7 +1,7 @@
 package com.ororura.cryptobazar.controllers;
 
 
-import com.ororura.cryptobazar.services.user.UserService;
+import com.ororura.cryptobazar.services.user.UserServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("test")
 public class TestController {
-    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
 
-    public TestController(UserService userService) {
-        this.userService = userService;
+    public TestController(UserServiceImpl userServiceImpl) {
+        this.userServiceImpl = userServiceImpl;
     }
 
     @GetMapping
@@ -21,6 +21,6 @@ public class TestController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         }
-        return ResponseEntity.status(HttpStatus.OK).body(this.userService.getUserByFirstName(firstName));
+        return ResponseEntity.status(HttpStatus.OK).body(this.userServiceImpl.getUserByFirstName(firstName));
     }
 }

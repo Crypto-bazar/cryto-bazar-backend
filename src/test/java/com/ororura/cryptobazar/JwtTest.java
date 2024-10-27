@@ -2,7 +2,7 @@ package com.ororura.cryptobazar;
 
 import com.ororura.cryptobazar.dtos.JWTResponse;
 import com.ororura.cryptobazar.dtos.SignUpDTO;
-import com.ororura.cryptobazar.services.user.UserService;
+import com.ororura.cryptobazar.services.user.UserServiceImpl;
 import com.ororura.cryptobazar.utils.JwtUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @SpringBootTest
 public class JwtTest {
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userServiceImpl;
 
     @Autowired
     JwtUtils jwtUtils;
@@ -27,7 +27,7 @@ public class JwtTest {
         signUpDTO.setEmail("john.doe@ororura.com");
         signUpDTO.setPassword("password");
 
-        JWTResponse jwtResponse = userService.signUp(signUpDTO);
+        JWTResponse jwtResponse = userServiceImpl.signUp(signUpDTO);
 
         String userName = jwtUtils.getUserNameFromJwtToken(jwtResponse.getToken());
         assertEquals("john.doe@ororura.com", userName, "Users name not expected from JWT token");

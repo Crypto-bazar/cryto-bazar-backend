@@ -1,6 +1,6 @@
 package com.ororura.cryptobazar.config;
 
-import com.ororura.cryptobazar.services.user.UserService;
+import com.ororura.cryptobazar.services.user.UserServiceImpl;
 import com.ororura.cryptobazar.utils.JwtUtils;
 import jakarta.annotation.Nonnull;
 import jakarta.servlet.FilterChain;
@@ -24,13 +24,13 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtUtils jwtUtils;
-    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
     private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
 
     @Autowired
-    public JwtAuthenticationFilter(JwtUtils jwtUtils, @Lazy UserService userService) {
+    public JwtAuthenticationFilter(JwtUtils jwtUtils, @Lazy UserServiceImpl userServiceImpl) {
         this.jwtUtils = jwtUtils;
-        this.userService = userService;
+        this.userServiceImpl = userServiceImpl;
     }
 
     @Override
@@ -47,7 +47,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String jwt = parseJwt(request);
         if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
             String username = jwtUtils.getUserNameFromJwtToken(jwt);
-            UserDetails userDetails = userService.loadUserByUsername(username);
+            UserDetails userDetails = userServiceImpl.loadUserByUsername(username);
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authentication);
