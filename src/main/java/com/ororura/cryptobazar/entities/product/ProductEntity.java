@@ -1,5 +1,6 @@
 package com.ororura.cryptobazar.entities.product;
 
+import com.ororura.cryptobazar.entities.user.UserEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,6 +18,10 @@ public class ProductEntity {
 
     @Column(name = "name", nullable = false)
     private String name;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "owner_id", nullable = false)
+    private UserEntity ownerId;
 
     @Column(name = "description", length = Integer.MAX_VALUE)
     private String description;

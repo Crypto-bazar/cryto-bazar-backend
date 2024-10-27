@@ -3,7 +3,7 @@ package com.ororura.cryptobazar;
 import com.ororura.cryptobazar.controllers.TestController;
 import com.ororura.cryptobazar.entities.user.Role;
 import com.ororura.cryptobazar.entities.user.UserEntity;
-import com.ororura.cryptobazar.services.userservice.UserService;
+import com.ororura.cryptobazar.services.user.UserService;
 import com.ororura.cryptobazar.utils.JwtUtils;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

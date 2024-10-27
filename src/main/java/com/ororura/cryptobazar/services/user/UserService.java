@@ -1,4 +1,4 @@
-package com.ororura.cryptobazar.services.userservice;
+package com.ororura.cryptobazar.services.user;
 
 import com.ororura.cryptobazar.dtos.JWTResponse;
 import com.ororura.cryptobazar.dtos.SignInDTO;
@@ -16,8 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static com.ororura.cryptobazar.services.userservice.ResponseStatus.INVALID_PASSWORD;
-import static com.ororura.cryptobazar.services.userservice.ResponseStatus.USER_NOT_FOUND;
+import static com.ororura.cryptobazar.services.user.ResponseStatus.INVALID_PASSWORD;
+import static com.ororura.cryptobazar.services.user.ResponseStatus.USER_NOT_FOUND;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -29,6 +29,11 @@ public class UserService implements UserDetailsService {
         this.userRepo = userRepo;
         this.jwtUtils = jwtUtils;
         this.passwordEncoder = passwordEncoder;
+    }
+
+    @Transactional
+    public UserEntity findUserById(Long id) {
+        return this.userRepo.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
     }
 
     @Transactional

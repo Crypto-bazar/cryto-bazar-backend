@@ -1,6 +1,6 @@
 package com.ororura.cryptobazar.config;
 
-import com.ororura.cryptobazar.services.userservice.UserService;
+import com.ororura.cryptobazar.services.user.UserService;
 import com.ororura.cryptobazar.utils.JwtUtils;
 import jakarta.annotation.Nonnull;
 import jakarta.servlet.FilterChain;

@@ -3,15 +3,15 @@ package com.ororura.cryptobazar.controllers;
 import com.ororura.cryptobazar.dtos.JWTResponse;
 import com.ororura.cryptobazar.dtos.SignInDTO;
 import com.ororura.cryptobazar.dtos.SignUpDTO;
-import com.ororura.cryptobazar.services.userservice.UserService;
+import com.ororura.cryptobazar.services.user.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.ororura.cryptobazar.services.userservice.ResponseStatus.INVALID_PASSWORD;
-import static com.ororura.cryptobazar.services.userservice.ResponseStatus.USER_NOT_FOUND;
+import static com.ororura.cryptobazar.services.user.ResponseStatus.INVALID_PASSWORD;
+import static com.ororura.cryptobazar.services.user.ResponseStatus.USER_NOT_FOUND;
 
 @RestController
 @RequestMapping("auth")

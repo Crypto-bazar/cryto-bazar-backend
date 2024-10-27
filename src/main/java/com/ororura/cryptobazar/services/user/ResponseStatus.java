@@ -1,4 +1,4 @@
-package com.ororura.cryptobazar.services.userservice;
+package com.ororura.cryptobazar.services.user;
 
 public class ResponseStatus {
     public static final String USER_NOT_FOUND = "User not found!";

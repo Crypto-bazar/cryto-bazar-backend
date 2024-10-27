@@ -20,7 +20,6 @@ import java.util.List;
 public class UserEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_entity_id_gen")
-    @SequenceGenerator(name = "user_entity_id_gen", sequenceName = "user_entity_id_seq", allocationSize = 1)
     @Column(name = "id", nullable = false)
     private Integer id;
 

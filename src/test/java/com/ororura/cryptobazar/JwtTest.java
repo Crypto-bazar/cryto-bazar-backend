@@ -2,7 +2,7 @@ package com.ororura.cryptobazar;
 
 import com.ororura.cryptobazar.dtos.JWTResponse;
 import com.ororura.cryptobazar.dtos.SignUpDTO;
-import com.ororura.cryptobazar.services.userservice.UserService;
+import com.ororura.cryptobazar.services.user.UserService;
 import com.ororura.cryptobazar.utils.JwtUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package com.ororura.cryptobazar.config;
 
-import com.ororura.cryptobazar.services.userservice.UserService;
+import com.ororura.cryptobazar.services.user.UserService;
 import com.ororura.cryptobazar.utils.JwtUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
