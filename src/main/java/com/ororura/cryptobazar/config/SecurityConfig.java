@@ -46,6 +46,7 @@ public class SecurityConfig {
                 authorizeRequests
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/test").permitAll()
+                        .requestMatchers("/product").permitAll()
                         .anyRequest()
                         .authenticated());
 
