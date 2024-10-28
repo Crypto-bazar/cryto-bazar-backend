@@ -22,6 +22,7 @@ public class ProductServiceImpl implements ProductService {
         ProductEntity productEntity = new ProductEntity();
         productEntity.setName(productDTO.getName());
         productEntity.setDescription(productDTO.getDescription());
+        productEntity.setAmount(productDTO.getAmount());
 
         UserEntity owner = this.userServiceImpl.findUserById(productDTO.getOwnerId());
         productEntity.setOwnerId(owner);
