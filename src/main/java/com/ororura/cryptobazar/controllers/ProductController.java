@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/product")
 public class ProductController {
@@ -17,9 +19,15 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<ProductEntity> getProductById(@RequestParam("id") Integer id) {
-        ProductEntity productEntity = productService.getProductById(id);
-        return new ResponseEntity<>(productEntity, HttpStatus.OK);
+    public ResponseEntity<List<ProductDTO>> getAllProducts() {
+        List<ProductDTO> productEntities = productService.getAllProducts();
+        return new ResponseEntity<>(productEntities, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductEntity> getProductById(@PathVariable Integer id) {
+        ProductEntity product = productService.getProductById(id);
+        return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
     @PostMapping

@@ -23,6 +23,9 @@ public class UserEntity implements UserDetails {
     @Column(name = "id", nullable = false)
     private Integer id;
 
+    @Column(name = "username", nullable = false)
+    private String username;
+
     @Column(name = "email", nullable = false)
     private String email;
 
@@ -47,6 +50,14 @@ public class UserEntity implements UserDetails {
     @Override
     public String getUsername() {
         return "";
+    }
+
+    public void setUser(String username) {
+        this.username = username;
+    }
+
+    public String getUser() {
+        return this.username;
     }
 
     @Override

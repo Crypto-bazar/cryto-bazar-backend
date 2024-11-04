@@ -7,6 +7,9 @@ import com.ororura.cryptobazar.repositories.ProductRepo;
 import com.ororura.cryptobazar.services.user.UserServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class ProductServiceImpl implements ProductService {
     private final ProductRepo productRepo;
@@ -15,6 +18,20 @@ public class ProductServiceImpl implements ProductService {
     public ProductServiceImpl(ProductRepo productRepo, UserServiceImpl userServiceImpl) {
         this.productRepo = productRepo;
         this.userServiceImpl = userServiceImpl;
+    }
+
+    @Override
+    public List<ProductDTO> getAllProducts() {
+        List<ProductEntity> products = productRepo.findAll();
+        return products.stream().map(productEntity -> {
+            ProductDTO productDTO = new ProductDTO();
+            productDTO.setAmount(productEntity.getAmount());
+            productDTO.setName(productEntity.getName());
+            productDTO.setDescription(productEntity.getDescription());
+            productDTO.setOwnerId(productEntity.getOwnerId().getId().longValue());
+            productDTO.setOwnerUsername(productEntity.getOwnerId().getUser());
+            return productDTO;
+        }).collect(Collectors.toList());
     }
 
     @Override

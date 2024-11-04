@@ -8,4 +8,5 @@ public class ProductDTO {
     private String description;
     private Long ownerId;
     private Integer amount;
+    private String ownerUsername;
 }

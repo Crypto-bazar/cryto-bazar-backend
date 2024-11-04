@@ -58,6 +58,7 @@ public class UserServiceImpl implements UserService {
     public JWTResponse signUp(SignUpDTO signUpDTO) {
         UserEntity userEntity = new UserEntity();
         userEntity.setEmail(signUpDTO.getEmail());
+        userEntity.setUser(signUpDTO.getUsername());
         userEntity.setPassword(passwordEncoder.encode(signUpDTO.getPassword()));
         userEntity.setFirstName(signUpDTO.getFirstName());
         userEntity.setLastName(signUpDTO.getLastName());
