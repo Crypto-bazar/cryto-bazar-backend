@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 
@@ -39,11 +40,11 @@ public class Person implements UserDetails {
 
     @ColumnDefault("false")
     @Column(name = "account_verified")
-    private Boolean accountVerified;
+    private Boolean accountVerified = false;
 
     @ColumnDefault("false")
     @Column(name = "document_verified")
-    private Boolean documentVerified;
+    private Boolean documentVerified = false;
 
     @PrePersist
     public void setDefaultRole() {
@@ -61,11 +62,14 @@ public class Person implements UserDetails {
 
     @ColumnDefault("now()")
     @Column(name = "created_at")
-    private Instant createdAt;
+    private Instant createdAt = Instant.now();
 
     @ColumnDefault("now()")
     @Column(name = "updated_at")
-    private Instant updatedAt;
+    private Instant updatedAt = Instant.now();
+
+    @Column(name = "birth_date")
+    private LocalDate birthDate;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

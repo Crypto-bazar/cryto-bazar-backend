@@ -12,10 +12,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Optional;
 
 import static com.ororura.cryptobazar.services.user.ResponseStatus.INVALID_PASSWORD;
-import static com.ororura.cryptobazar.services.user.ResponseStatus.USER_NOT_FOUND;
 
 @Service
 public class PersonServiceImpl implements PersonService {
@@ -37,34 +38,35 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public JWTResponse signIn(SignInDTO signInDTO) {
         JWTResponse response = new JWTResponse();
-        Optional<Person> userEntity = this.personRepo.findByEmail(signInDTO.getEmail());
+        Person userEntity = this.personRepo.findByLogin(signInDTO.getLogin());
 
-        if (userEntity.isEmpty()) {
-            response.setToken(USER_NOT_FOUND);
-            return response;
-        }
-
-        Person user = userEntity.get();
-
-        if (!passwordEncoder.matches(signInDTO.getPassword(), user.getPassword())) {
+        if (!passwordEncoder.matches(signInDTO.getPassword(), userEntity.getPassword())) {
             response.setToken(INVALID_PASSWORD);
             return response;
         }
 
-        return generateToken(user);
+        return generateToken(userEntity);
     }
 
     @Override
     public JWTResponse signUp(SignUpDTO signUpDTO) {
         Person userEntity = new Person();
 
+        LocalDate currentDate = LocalDate.now();
+
+        int age = Period.between(signUpDTO.getBirthday(), currentDate).getYears();
+
+        if (age <= 18) {
+            throw new IllegalArgumentException("Age must be less than 18");
+        }
+
         userEntity.setEmail(signUpDTO.getEmail());
         userEntity.setUser(signUpDTO.getName());
         userEntity.setPassword(passwordEncoder.encode(signUpDTO.getPassword()));
         userEntity.setName(signUpDTO.getName());
+        userEntity.setLogin(signUpDTO.getLogin());
         userEntity.setPhoneNumber(signUpDTO.getPhone_number());
-
-        System.out.println(signUpDTO.getName());
+        userEntity.setBirthDate(signUpDTO.getBirthday());
 
         buildUser(signUpDTO);
         this.personRepo.save(userEntity);
@@ -89,7 +91,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public Person getUserByFirstName(String login) {
-        return this.personRepo.findPersonByLogin(login);
+        return this.personRepo.findByLogin(login);
     }
 
     @Override

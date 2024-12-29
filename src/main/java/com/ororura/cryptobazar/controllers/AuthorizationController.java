@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.ororura.cryptobazar.services.user.ResponseStatus.INVALID_PASSWORD;
-import static com.ororura.cryptobazar.services.user.ResponseStatus.USER_NOT_FOUND;
 
 @RestController
 @RequestMapping("auth")
@@ -31,15 +29,6 @@ public class AuthorizationController {
     @PostMapping("/sign-in")
     public ResponseEntity<JWTResponse> signIn(@RequestBody SignInDTO signInDTO) {
         JWTResponse jwtResponse = this.userServiceImpl.signIn(signInDTO);
-
-        if (USER_NOT_FOUND.equals(jwtResponse.getToken())) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(jwtResponse);
-        }
-
-        if (INVALID_PASSWORD.equals(jwtResponse.getToken())) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(jwtResponse);
-        }
-
         return ResponseEntity.status(HttpStatus.OK).body(jwtResponse);
     }
 }

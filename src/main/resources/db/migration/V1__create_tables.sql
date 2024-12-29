@@ -34,11 +34,12 @@ CREATE TABLE person
     name              VARCHAR(255),
     password          VARCHAR(255) NOT NULL,
     phone_number      VARCHAR(30)  NOT NULL,
-    account_verified  BOOLEAN   DEFAULT FALSE,
-    document_verified BOOLEAN   DEFAULT FALSE,
+    birth_date        DATE         NOT NULL,
+    account_verified  BOOLEAN                      DEFAULT FALSE,
+    document_verified BOOLEAN                      DEFAULT FALSE,
     role_id           INTEGER REFERENCES role (id) DEFAULT 1,
-    created_at        TIMESTAMP DEFAULT NOW(),
-    updated_at        TIMESTAMP DEFAULT NOW()
+    created_at        TIMESTAMP                    DEFAULT NOW(),
+    updated_at        TIMESTAMP                    DEFAULT NOW()
 );
 
 CREATE TABLE advertisement
