@@ -6,6 +6,7 @@ import com.ororura.cryptobazar.services.product.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ import java.util.List;
 @RequestMapping("/product")
 public class ProductController {
     private final ProductService productService;
+    private static final String UPLOAD_DIR = "src/main/resources/uploads/";
 
     public ProductController(ProductService productService) {
         this.productService = productService;
@@ -31,8 +33,8 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductEntity> addProduct(@RequestBody ProductDTO product) {
-        ProductEntity createdProduct = productService.createProduct(product);
+    public ResponseEntity<ProductEntity> addProduct(@ModelAttribute ProductDTO product, @RequestParam MultipartFile file) {
+        ProductEntity createdProduct = productService.createProduct(product, file);
         return new ResponseEntity<>(createdProduct, HttpStatus.CREATED);
     }
 

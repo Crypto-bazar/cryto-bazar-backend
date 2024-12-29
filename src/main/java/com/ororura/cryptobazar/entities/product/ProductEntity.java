@@ -30,4 +30,7 @@ public class ProductEntity {
     @Column(name = "amount")
     private Integer amount;
 
+    @Column(name = "photo")
+    private String photo;
+
 }

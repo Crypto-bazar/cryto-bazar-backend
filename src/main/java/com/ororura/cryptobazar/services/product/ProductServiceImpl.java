@@ -6,8 +6,15 @@ import com.ororura.cryptobazar.entities.user.UserEntity;
 import com.ororura.cryptobazar.repositories.ProductRepo;
 import com.ororura.cryptobazar.services.user.UserServiceImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,7 +42,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductEntity createProduct(ProductDTO productDTO) {
+    public ProductEntity createProduct(ProductDTO productDTO, MultipartFile file) {
         ProductEntity productEntity = new ProductEntity();
         productEntity.setName(productDTO.getName());
         productEntity.setDescription(productDTO.getDescription());
@@ -44,6 +51,12 @@ public class ProductServiceImpl implements ProductService {
         UserEntity owner = this.userServiceImpl.findUserById(productDTO.getOwnerId());
         productEntity.setOwnerId(owner);
 
+        try {
+        saveImage(file);
+
+        } catch (IOException e) {
+            throw new IllegalStateException("Could not save image", e);
+        }
         return productRepo.save(productEntity);
     }
 
@@ -55,5 +68,14 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void deleteProductById(Integer id) {
         this.productRepo.deleteById(id);
+    }
+
+    @Override
+    public String saveImage(MultipartFile file) throws IOException {
+        String filename = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+        Path imagePath = Paths.get("uploads/", filename);
+        Files.createDirectories(imagePath.getParent());
+        Files.copy(file.getInputStream(), imagePath, StandardCopyOption.REPLACE_EXISTING);
+        return imagePath.toString();
     }
 }
