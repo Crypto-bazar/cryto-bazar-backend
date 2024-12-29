@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: crypto-bazar
+  datasource:
+    url: jdbc:postgresql://localhost:7432/bazar
+    username: cryptobazar
+    password: KAUSihdauiskdhiaukw324234ASd13d31d3w2raASdawd
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          lob:
+            non-contextual-creation: true
+    hibernate:
+      ddl-auto: none
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB
+  app:
+    jwtSecret: WgwAAWeR+Js8R41eanXtOkniGCBq1MxMhbZn+maX66Q=
+    jwtExpirationMs: 3000000
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+    clean-disabled: false
