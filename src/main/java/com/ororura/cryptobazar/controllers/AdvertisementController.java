@@ -1,7 +1,7 @@
 package com.ororura.cryptobazar.controllers;
 
 import com.ororura.cryptobazar.dtos.ProductDTO;
-import com.ororura.cryptobazar.entities.product.ProductEntity;
+import com.ororura.cryptobazar.entities.Advertisement;
 import com.ororura.cryptobazar.services.product.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,11 +12,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/product")
-public class ProductController {
+public class AdvertisementController {
     private final ProductService productService;
     private static final String UPLOAD_DIR = "src/main/resources/uploads/";
 
-    public ProductController(ProductService productService) {
+    public AdvertisementController(ProductService productService) {
         this.productService = productService;
     }
 
@@ -27,14 +27,14 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductEntity> getProductById(@PathVariable Integer id) {
-        ProductEntity product = productService.getProductById(id);
+    public ResponseEntity<Advertisement> getProductById(@PathVariable Integer id) {
+        Advertisement product = productService.getProductById(id);
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<ProductEntity> addProduct(@ModelAttribute ProductDTO product, @RequestParam MultipartFile file) {
-        ProductEntity createdProduct = productService.createProduct(product, file);
+    public ResponseEntity<Advertisement> addProduct(@ModelAttribute ProductDTO product, @RequestParam MultipartFile file) {
+        Advertisement createdProduct = productService.createProduct(product, file);
         return new ResponseEntity<>(createdProduct, HttpStatus.CREATED);
     }
 

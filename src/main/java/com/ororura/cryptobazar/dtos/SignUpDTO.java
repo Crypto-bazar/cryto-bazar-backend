@@ -6,9 +6,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SignUpDTO extends Auth {
-    private String firstName;
-    private String lastName;
+    private String login;
     private String email;
+    private String name;
     private String password;
-    private String username;
+    private String phone_number;
 }

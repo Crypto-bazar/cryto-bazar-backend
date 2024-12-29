@@ -1,6 +1,6 @@
 package com.ororura.cryptobazar.config;
 
-import com.ororura.cryptobazar.services.user.UserServiceImpl;
+import com.ororura.cryptobazar.services.user.PersonServiceImpl;
 import com.ororura.cryptobazar.utils.JwtUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,9 +27,9 @@ public class SecurityConfig {
 
     private final AuthEntryPointJwt unauthorizedHandler;
     private final JwtUtils jwtUtils;
-    private final UserServiceImpl userServiceImpl;
+    private final PersonServiceImpl userServiceImpl;
 
-    public SecurityConfig(AuthEntryPointJwt unauthorizedHandler, JwtUtils jwtUtils, @Lazy UserServiceImpl userServiceImpl) {
+    public SecurityConfig(AuthEntryPointJwt unauthorizedHandler, JwtUtils jwtUtils, @Lazy PersonServiceImpl userServiceImpl) {
         this.unauthorizedHandler = unauthorizedHandler;
         this.jwtUtils = jwtUtils;
         this.userServiceImpl = userServiceImpl;

@@ -2,7 +2,7 @@ package com.ororura.cryptobazar;
 
 import com.ororura.cryptobazar.dtos.JWTResponse;
 import com.ororura.cryptobazar.dtos.SignUpDTO;
-import com.ororura.cryptobazar.services.user.UserServiceImpl;
+import com.ororura.cryptobazar.services.user.PersonServiceImpl;
 import com.ororura.cryptobazar.utils.JwtUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @SpringBootTest
 public class JwtTest {
     @Autowired
-    private UserServiceImpl userServiceImpl;
+    private PersonServiceImpl userServiceImpl;
 
     @Autowired
     JwtUtils jwtUtils;
@@ -22,8 +22,6 @@ public class JwtTest {
     @Test
     public void test() {
         SignUpDTO signUpDTO = new SignUpDTO();
-        signUpDTO.setFirstName("John");
-        signUpDTO.setLastName("Doe");
         signUpDTO.setEmail("john.doe@ororura.com");
         signUpDTO.setPassword("password");
 

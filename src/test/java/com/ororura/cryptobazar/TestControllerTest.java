@@ -1,7 +1,7 @@
 package com.ororura.cryptobazar;
 
 import com.ororura.cryptobazar.controllers.TestController;
-import com.ororura.cryptobazar.services.user.UserServiceImpl;
+import com.ororura.cryptobazar.services.user.PersonServiceImpl;
 import com.ororura.cryptobazar.utils.JwtUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ class TestControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private UserServiceImpl userServiceImpl;
+    private PersonServiceImpl userServiceImpl;
 
     @MockBean
     private JwtUtils jwtUtils;

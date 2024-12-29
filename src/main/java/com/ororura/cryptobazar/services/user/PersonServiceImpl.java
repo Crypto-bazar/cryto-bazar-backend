@@ -3,8 +3,8 @@ package com.ororura.cryptobazar.services.user;
 import com.ororura.cryptobazar.dtos.JWTResponse;
 import com.ororura.cryptobazar.dtos.SignInDTO;
 import com.ororura.cryptobazar.dtos.SignUpDTO;
-import com.ororura.cryptobazar.entities.user.UserEntity;
-import com.ororura.cryptobazar.repositories.UserRepo;
+import com.ororura.cryptobazar.entities.Person;
+import com.ororura.cryptobazar.repositories.PersonRepo;
 import com.ororura.cryptobazar.utils.JwtUtils;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,33 +18,33 @@ import static com.ororura.cryptobazar.services.user.ResponseStatus.INVALID_PASSW
 import static com.ororura.cryptobazar.services.user.ResponseStatus.USER_NOT_FOUND;
 
 @Service
-public class UserServiceImpl implements UserService {
-    private final UserRepo userRepo;
+public class PersonServiceImpl implements PersonService {
+    private final PersonRepo personRepo;
     private final JwtUtils jwtUtils;
     private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepo userRepo, JwtUtils jwtUtils, PasswordEncoder passwordEncoder) {
-        this.userRepo = userRepo;
+    public PersonServiceImpl(PersonRepo personRepo, JwtUtils jwtUtils, PasswordEncoder passwordEncoder) {
+        this.personRepo = personRepo;
         this.jwtUtils = jwtUtils;
         this.passwordEncoder = passwordEncoder;
     }
 
     @Override
-    public UserEntity findUserById(Long id) {
-        return this.userRepo.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+    public Person findUserById(Long id) {
+        return this.personRepo.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
     }
 
     @Override
     public JWTResponse signIn(SignInDTO signInDTO) {
         JWTResponse response = new JWTResponse();
-        Optional<UserEntity> userEntity = this.userRepo.findByEmail(signInDTO.getEmail());
+        Optional<Person> userEntity = this.personRepo.findByEmail(signInDTO.getEmail());
 
         if (userEntity.isEmpty()) {
             response.setToken(USER_NOT_FOUND);
             return response;
         }
 
-        UserEntity user = userEntity.get();
+        Person user = userEntity.get();
 
         if (!passwordEncoder.matches(signInDTO.getPassword(), user.getPassword())) {
             response.setToken(INVALID_PASSWORD);
@@ -56,19 +56,23 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public JWTResponse signUp(SignUpDTO signUpDTO) {
-        UserEntity userEntity = new UserEntity();
+        Person userEntity = new Person();
+
         userEntity.setEmail(signUpDTO.getEmail());
-        userEntity.setUser(signUpDTO.getUsername());
+        userEntity.setUser(signUpDTO.getName());
         userEntity.setPassword(passwordEncoder.encode(signUpDTO.getPassword()));
-        userEntity.setFirstName(signUpDTO.getFirstName());
-        userEntity.setLastName(signUpDTO.getLastName());
+        userEntity.setName(signUpDTO.getName());
+        userEntity.setPhoneNumber(signUpDTO.getPhone_number());
+
+        System.out.println(signUpDTO.getName());
+
         buildUser(signUpDTO);
-        this.userRepo.save(userEntity);
+        this.personRepo.save(userEntity);
         return generateToken(userEntity);
     }
 
     @Override
-    public JWTResponse generateToken(UserEntity userEntity) {
+    public JWTResponse generateToken(Person userEntity) {
         JWTResponse jwtResponse = new JWTResponse();
         jwtResponse.setToken(jwtUtils.generateTokenFromUsername(userEntity));
         return jwtResponse;
@@ -84,17 +88,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity getUserByFirstName(String username) {
-        return this.userRepo.findByFirstName(username);
+    public Person getUserByFirstName(String login) {
+        return this.personRepo.findPersonByLogin(login);
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Optional<UserEntity> optionalUserEntity = userRepo.findByEmail(email);
-        UserEntity userEntity = optionalUserEntity.orElseThrow(() -> new UsernameNotFoundException(email));
+        Optional<Person> optionalUserEntity = personRepo.findByEmail(email);
+        Person userEntity = optionalUserEntity.orElseThrow(() -> new UsernameNotFoundException(email));
 
         return User.builder()
-                .username(userEntity.getEmail())
+                .username(userEntity.getLogin())
                 .password(userEntity.getPassword())
                 .roles(userEntity.getRole().toString())
                 .build();

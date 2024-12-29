@@ -1,6 +1,6 @@
 package com.ororura.cryptobazar.config;
 
-import com.ororura.cryptobazar.services.user.UserServiceImpl;
+import com.ororura.cryptobazar.services.user.PersonServiceImpl;
 import com.ororura.cryptobazar.utils.JwtUtils;
 import jakarta.annotation.Nonnull;
 import jakarta.servlet.FilterChain;
@@ -24,11 +24,11 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtUtils jwtUtils;
-    private final UserServiceImpl userServiceImpl;
+    private final PersonServiceImpl userServiceImpl;
     private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
 
     @Autowired
-    public JwtAuthenticationFilter(JwtUtils jwtUtils, @Lazy UserServiceImpl userServiceImpl) {
+    public JwtAuthenticationFilter(JwtUtils jwtUtils, @Lazy PersonServiceImpl userServiceImpl) {
         this.jwtUtils = jwtUtils;
         this.userServiceImpl = userServiceImpl;
     }

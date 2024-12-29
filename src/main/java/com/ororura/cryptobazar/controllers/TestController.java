@@ -1,7 +1,7 @@
 package com.ororura.cryptobazar.controllers;
 
 
-import com.ororura.cryptobazar.services.user.UserServiceImpl;
+import com.ororura.cryptobazar.services.user.PersonServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("test")
 public class TestController {
-    private final UserServiceImpl userServiceImpl;
+    private final PersonServiceImpl userServiceImpl;
 
-    public TestController(UserServiceImpl userServiceImpl) {
+    public TestController(PersonServiceImpl userServiceImpl) {
         this.userServiceImpl = userServiceImpl;
     }
 
