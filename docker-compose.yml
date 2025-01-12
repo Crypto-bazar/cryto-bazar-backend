@@ -9,13 +9,16 @@ services:
     ports:
       - '7432:5432'
 
-#  backend:
-#    image: ororura/bazar-back:0.0.1
-#    environment:
-#      SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/bazar
-#      SPRING_DATASOURCE_USERNAME: cryptobazar
-#      SPRING_DATASOURCE_PASSWORD: KAUSihdauiskdhiaukw324234ASd13d31d3w2raASdawd
-#    depends_on:
-#      - database
-#    ports:
-#      - '8080:8080'
+  backend:
+    volumes:
+      - ./src:/app/src
+    build:
+      context: .
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/bazar
+      SPRING_DATASOURCE_USERNAME: cryptobazar
+      SPRING_DATASOURCE_PASSWORD: KAUSihdauiskdhiaukw324234ASd13d31d3w2raASdawd
+    depends_on:
+      - database
+    ports:
+      - '8080:8080'

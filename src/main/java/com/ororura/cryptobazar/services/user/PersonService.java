@@ -27,4 +27,7 @@ public interface PersonService extends UserDetailsService {
     void buildUser(SignUpDTO signUpDTO);
 
     Person getUserByFirstName(String username);
+
+    Person createUser(SignUpDTO signUpDTO);
+
 }

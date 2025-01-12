@@ -6,18 +6,22 @@ import com.ororura.cryptobazar.dtos.SignUpDTO;
 import com.ororura.cryptobazar.entities.Person;
 import com.ororura.cryptobazar.repositories.PersonRepo;
 import com.ororura.cryptobazar.utils.JwtUtils;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Collections;
 import java.util.Optional;
 
 import static com.ororura.cryptobazar.services.user.ResponseStatus.INVALID_PASSWORD;
 
+@Transactional
 @Service
 public class PersonServiceImpl implements PersonService {
     private final PersonRepo personRepo;
@@ -45,12 +49,30 @@ public class PersonServiceImpl implements PersonService {
             return response;
         }
 
+        System.out.println();
+
         return generateToken(userEntity);
     }
 
     @Override
+    public Person createUser(SignUpDTO signUpDTO) {
+        Person person = new Person();
+
+        person.setEmail(signUpDTO.getEmail());
+        person.setUser(signUpDTO.getName());
+        person.setPassword(passwordEncoder.encode(signUpDTO.getPassword()));
+        person.setName(signUpDTO.getName());
+        person.setLogin(signUpDTO.getLogin());
+        person.setPhoneNumber(signUpDTO.getPhone_number());
+        person.setBirthDate(signUpDTO.getBirthday());
+
+        return person;
+
+    }
+
+    @Override
     public JWTResponse signUp(SignUpDTO signUpDTO) {
-        Person userEntity = new Person();
+        Person userEntity = createUser(signUpDTO);
 
         LocalDate currentDate = LocalDate.now();
 
@@ -59,15 +81,6 @@ public class PersonServiceImpl implements PersonService {
         if (age <= 18) {
             throw new IllegalArgumentException("Age must be less than 18");
         }
-
-        userEntity.setEmail(signUpDTO.getEmail());
-        userEntity.setUser(signUpDTO.getName());
-        userEntity.setPassword(passwordEncoder.encode(signUpDTO.getPassword()));
-        userEntity.setName(signUpDTO.getName());
-        userEntity.setLogin(signUpDTO.getLogin());
-        userEntity.setPhoneNumber(signUpDTO.getPhone_number());
-        userEntity.setBirthDate(signUpDTO.getBirthday());
-
         buildUser(signUpDTO);
         this.personRepo.save(userEntity);
         return generateToken(userEntity);
@@ -96,13 +109,10 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Optional<Person> optionalUserEntity = personRepo.findByEmail(email);
-        Person userEntity = optionalUserEntity.orElseThrow(() -> new UsernameNotFoundException(email));
-
-        return User.builder()
-                .username(userEntity.getLogin())
-                .password(userEntity.getPassword())
-                .roles(userEntity.getRole().toString())
-                .build();
+        Person userEntity = personRepo.findByLogin(email);
+        return new org.springframework.security.core.userdetails.User(
+                userEntity.getUsername(),
+                userEntity.getPassword(),
+                Collections.singleton(new SimpleGrantedAuthority("ROLE_" + userEntity.getRole().getName())));
     }
 }

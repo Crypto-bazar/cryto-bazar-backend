@@ -22,4 +22,6 @@ public interface ProductService {
     void deleteProductById(Integer id);
 
     void saveImage(MultipartFile file) throws IOException;
+
+
 }

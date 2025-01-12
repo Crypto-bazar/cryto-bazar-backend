@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping("/advertisements")
 public class AdvertisementController {
     private final ProductService productService;
     private static final String UPLOAD_DIR = "src/main/resources/uploads/";
