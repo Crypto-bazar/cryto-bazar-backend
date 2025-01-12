@@ -29,4 +29,12 @@ public class Advertisement {
     @Column(name = "photo")
     private String photo;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "owner_id", nullable = false)
+    private Person owner;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ad_status_id")
+    private AdvertisementStatus adStatus;
+
 }

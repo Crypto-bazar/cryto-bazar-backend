@@ -6,7 +6,7 @@ import lombok.Data;
 public class ProductDTO {
     private String name;
     private String description;
-    private Long ownerId;
+    private String owner;
     private Integer amount;
-    private String ownerUsername;
+    private String photo;
 }

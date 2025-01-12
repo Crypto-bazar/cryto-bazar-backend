@@ -29,8 +29,10 @@ public class ProductServiceImpl implements ProductService {
         return products.stream().map(productEntity -> {
             ProductDTO productDTO = new ProductDTO();
             productDTO.setAmount(productEntity.getAmount());
+            productDTO.setPhoto(productEntity.getPhoto());
             productDTO.setName(productEntity.getName());
             productDTO.setDescription(productEntity.getDescription());
+            productDTO.setOwner(productEntity.getOwner().getName());
             return productDTO;
         }).collect(Collectors.toList());
     }
